@@ -89,14 +89,22 @@ class Program
 
         if (_context.Count == 0)
         {
-            WriteLine("2x return to end request");
+            WriteLine(".<return> to end request");
         }
 
-        Write(">> ");
+        WriteLine(">>");
 
-        while (!input.ToString().EndsWith(System.Environment.NewLine + System.Environment.NewLine))
+        while (true)
         {
-            input.AppendLine(ReadLine());
+            var line = ReadLine();
+            if (line == null || line.Equals("."))
+            {
+                break;
+            }
+            else
+            {
+                input.AppendLine(line);
+            }
         }
 
         var trimmedInput = input.ToString().Trim();
@@ -113,9 +121,10 @@ class Program
         {
             var response = result.Choices.First().Text.Trim().Split("\n");
 
+            WriteLine("<<");
             foreach (var line in response)
             {
-                WriteLine($"<< {line}");
+                WriteLine(line);
             }
         }
         else
