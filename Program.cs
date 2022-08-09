@@ -52,10 +52,7 @@ class Program
                 case ConsoleKey.D2:
                     yield return Action.Reset;
                     break;
-                case ConsoleKey.D3:
-                    yield return Action.Config;
-                    break;
-                case ConsoleKey.D4:
+                case ConsoleKey.H:
                     yield return Action.Help;
                     break;
                 case ConsoleKey.Q:
@@ -73,7 +70,6 @@ class Program
         var actionMap = new Dictionary<Action, Func<Task>> {
             { Action.Request, Request },
             { Action.Reset, Reset },
-            { Action.Config, Config },
             { Action.Help, Help },
             { Action.Invalid, async () => { WriteLine("!! Invalid key"); await Task.CompletedTask; } },
         };
@@ -109,6 +105,7 @@ class Program
         {
             return;
         }
+        WriteLine("## Thinking...");
 
         var result = await GPT3.GPT3Api.Completions(new GPT3.Request { Prompt = trimmedInput });
 
@@ -138,14 +135,9 @@ class Program
         await Task.Yield();
     }
 
-    async Task Config()
-    {
-        await Task.Yield();
-    }
-
     async Task Help()
     {
-        WriteLine("## 1 = Request, 2 = Reset, 3 = Config, 4 = Help, Q = Exit (or ctrl+c)"); ;
+        WriteLine("?? 1 = Request, 2 = Reset, H = Help, Q = Exit (or ctrl+c)"); ;
 
         await Task.Yield();
     }
@@ -155,7 +147,6 @@ enum Action
 {
     Request,
     Reset,
-    Config,
     Exit,
     Help,
     Invalid = 99
