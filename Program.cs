@@ -21,7 +21,10 @@ class Program
     {
         await foreach (var prompt in Prompt())
         {
-            await Act(prompt);
+            if (!await Act(prompt))
+            {
+                break;
+            }
         }
     }
 
